@@ -1,5 +1,6 @@
 import pandas as pd
 import yfinance as yf
+from sqlalchemy import create_engine
 
 def ambil_data_live(simbol, nama_aset):
     ticker = yf.Ticker(simbol)
@@ -31,8 +32,12 @@ def jalankan_pipeline():
         df_emas_idr = df_emas_idr.drop(columns=['harga_tutup_kurs'])
         tabel_kombinasi = pd.concat([df_emas_idr, df_saham_ri], ignore_index=True)
         
-        print(tabel_kombinasi.head(10))
-        print(f"Total data: {len(tabel_kombinasi)} baris.")
+        ALAMAT_DATABASE = "postgresql://postgres:Makrufkausar26@db.zaqxdmhofnbmusemwaxl.supabase.co:5432/postgres"
+        
+        engine = create_engine(ALAMAT_DATABASE)
+        tabel_kombinasi.to_sql('kpi_data', con=engine, if_exists='replace', index=False)
+        
+        print("🚀 Sukses! Data 1 tahun berhasil diunggah ke Supabase.")
 
 if __name__ == "__main__":
     jalankan_pipeline()
