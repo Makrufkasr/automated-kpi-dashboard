@@ -35,7 +35,7 @@ def jalankan_pipeline():
         ALAMAT_DATABASE = "postgresql://postgres:Makrufkausar26@db.zaqxdmhofnbmusemwaxl.supabase.co:5432/postgres"
         
         engine = create_engine(ALAMAT_DATABASE)
-        tabel_kombinasi.to_sql('kpi_data', con=engine, if_exists='replace', index=False)
+        tabel_kombinasi.to_sql('kpi_data', con=engine, if_exists='append', index=False)
         
         print("🚀 Sukses! Data 1 tahun berhasil diunggah ke Supabase.")
 
